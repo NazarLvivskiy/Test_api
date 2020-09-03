@@ -15,9 +15,12 @@ namespace Test_api.Tools
             {
                 var newCar = newEntity as Car;
                 var oldCar = oldEntity as Car;
-                if (newCar.Name != "none")
+                if (newCar.Id != null)
                 {
-                    oldCar.Name = newCar.Name;
+                    if (newCar.Name != null)
+                    {
+                        oldCar.Name = newCar.Name;
+                    }
                 }
 
                 if (newCar.Description != null)

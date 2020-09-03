@@ -18,13 +18,5 @@ namespace Test_api.Models
         public string Name { get; set; }
 
         public string Description { get; set; }
-
-        public Car()
-        {
-            if (Name == null)
-            {
-                Name = "none";
-            }
-        }
     }
 }

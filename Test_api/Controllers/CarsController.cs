@@ -23,13 +23,13 @@ namespace Test_api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Car>> Get()
         {
-            return cars.GetAll_async().Result.ToList();
+            return cars.GetAll().Result.ToList();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Car>> Get(string id)
         {
-            var car = await cars.Get_async(id);
+            var car = await cars.Get(id);
             if (car == null)
                 return NotFound();
             return new ObjectResult(car);
@@ -42,34 +42,24 @@ namespace Test_api.Controllers
             {
                 return BadRequest();
             }
-
-            await cars.Add_async(car);
-            return Ok(car);
-        }
-
-        [HttpPut]
-        public async Task<ActionResult<Car>> Put(Car user)
-        {
-            if (user == null)
+            if (car.Id == null)
             {
-                return BadRequest();
+                await cars.Add(car);
+                return Ok("Add");
             }
-            if (user.Id == null)
+            else
             {
-                await Post(user);
-                return Ok(user);
+                await cars.Update(car, car.Id);
+                return Ok("PUT");
             }
-            
-
-            await cars.Update_async(user, user.Id);
-            return Ok(user);
+           
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<Car>> Delete(string id)
         {
-            await cars.Delete_async(id);
-            return Ok();
+            await cars.Delete(id);
+            return Ok("Delete");
         }
     }
 }
