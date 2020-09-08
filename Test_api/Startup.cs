@@ -29,6 +29,7 @@ namespace Test_api
         
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMSSQLContext(Configuration);
             services.AddRepositoryService();
             services.AddControllers();
         }
