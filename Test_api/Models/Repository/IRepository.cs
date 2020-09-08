@@ -13,6 +13,8 @@ namespace Test_api.Models.Repository
 
         Task Add(TEntity entity);
 
+        Task AddRange(IEnumerable<TEntity> entities);
+
         Task Delete(string id);
 
         Task Update(TEntity newEntity, string id);

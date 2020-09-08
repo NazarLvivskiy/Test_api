@@ -36,20 +36,55 @@ namespace Test_api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Car>> Post(Car car)
+        public async Task<ActionResult<Car>> Post(CarPrototype prototype)
         {
-            if (car == null)
+            if (prototype == null)
             {
                 return BadRequest();
             }
-            if (car.Id == null)
+            if (prototype.Id == null)
             {
+                var car = new Car();
+
+                if (prototype.Name == string.Empty || prototype.Name == null)
+                {
+                    return BadRequest();
+                }
+                car.Name = prototype.Name;
+                if (prototype.Description == string.Empty)
+                {
+                    car.Description = null;
+                }
+                else
+                {
+                    car.Description = prototype.Description;
+                }
+
+
                 await cars.Add(car);
                 return Ok("Add");
             }
             else
             {
+                var car = await cars.Get(prototype.Id);
+
+                if (prototype.Name==null)
+                {
+                    return BadRequest();
+                }
+                if (prototype.Name!=string.Empty)
+                {
+                    car.Name = prototype.Name;
+                }
+
+                if (prototype.Description != string.Empty)
+                {
+                    car.Description = prototype.Description;
+                }
+                
+
                 await cars.Update(car, car.Id);
+
                 return Ok("PUT");
             }
            

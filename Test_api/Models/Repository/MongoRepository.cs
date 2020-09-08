@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Test_api.Tools;
 
 namespace Test_api.Models.Repository
 {
@@ -50,10 +49,12 @@ namespace Test_api.Models.Repository
 
         public async Task Update(Entity newEntity, string id)
         {
-            var oldEntity = Get(id).Result;
-            var model = PUT<Entity>.Up(newEntity, oldEntity);
-            await Collection.ReplaceOneAsync(new BsonDocument("_id", new ObjectId(id)), model);
+            await Collection.ReplaceOneAsync(new BsonDocument("_id", new ObjectId(id)), newEntity);
         }
 
+        public async Task AddRange(IEnumerable<Entity> entities)
+        {
+            await Collection.InsertManyAsync(entities);
+        }
     }
 }
