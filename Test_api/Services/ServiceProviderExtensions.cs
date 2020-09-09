@@ -14,13 +14,13 @@ namespace Test_api.Services
     {
         public static void AddRepositoryService(this IServiceCollection services)
         {
-            services.AddTransient<IRepository<Car>, MSSQLRepository<Car>>();
+            services.AddTransient<IRepository<Car>, MongoRepository<Car>>();
         }
 
         public static void AddMSSQLContext(this IServiceCollection services, IConfiguration Configuration)
         {
             string connection = Configuration.GetConnectionString("MSSQL");
-            // добавляем контекст MobileContext в качестве сервиса в приложение
+
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(connection));
         }

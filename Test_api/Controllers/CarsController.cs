@@ -45,7 +45,12 @@ namespace Test_api.Controllers
             if (prototype.Id == null)
             {
                 var car = new Car();
-
+                if (cars.GetType().Name == "MSSQLRepository`1")
+                {
+                    car.Id = Guid.NewGuid().ToString();
+                }
+                
+                
                 if (prototype.Name == string.Empty || prototype.Name == null)
                 {
                     return BadRequest();
@@ -59,7 +64,7 @@ namespace Test_api.Controllers
                 {
                     car.Description = prototype.Description;
                 }
-
+                
 
                 await cars.Add(car);
                 return Ok("Add");

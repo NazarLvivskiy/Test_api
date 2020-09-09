@@ -21,22 +21,25 @@ namespace Test_api.Models.Repository
         public async Task Add(TEntity entity)
         {
             await _entities.AddAsync(entity);
+            await db.SaveChangesAsync();
         }
 
         public async Task AddRange(IEnumerable<TEntity> entities)
         {
             await _entities.AddRangeAsync(entities);
+            await db.SaveChangesAsync();
         }
 
-        public Task Delete(string id)
+        public async Task Delete(string id)
         {
             _entities.Remove(Get(id).Result);
-            return null;
+            await db.SaveChangesAsync();
         }
 
         public async Task<TEntity> Get(string id)
         {
             return await _entities.FindAsync(id);
+
         }
 
         public async Task<IEnumerable<TEntity>> GetAll()
@@ -44,10 +47,10 @@ namespace Test_api.Models.Repository
             return await _entities.ToListAsync();
         }
 
-        public Task Update(TEntity newEntity, string id)
+        public async Task Update(TEntity newEntity, string id)
         {
             _entities.Update(newEntity);
-            return null;
+            await db.SaveChangesAsync();
         }
     }
 }
