@@ -23,53 +23,83 @@ namespace Test_api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Car>> Get()
         {
-            return cars.GetAll_async().Result.ToList();
+            return cars.GetAll().Result.ToList();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Car>> Get(string id)
         {
-            var car = await cars.Get_async(id);
+            var car = await cars.Get(id);
             if (car == null)
                 return NotFound();
             return new ObjectResult(car);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Car>> Post(Car car)
+        public async Task<ActionResult<Car>> Post(CarPrototype prototype)
         {
-            if (car == null)
+            if (prototype == null)
             {
                 return BadRequest();
             }
-
-            await cars.Add_async(car);
-            return Ok(car);
-        }
-
-        [HttpPut]
-        public async Task<ActionResult<Car>> Put(Car user)
-        {
-            if (user == null)
+            if (prototype.Id == null)
             {
-                return BadRequest();
-            }
-            if (user.Id == null)
-            {
-                await Post(user);
-                return Ok(user);
-            }
-            
+                var car = new Car();
+                if (cars.GetType().Name == "MSSQLRepository`1")
+                {
+                    car.Id = Guid.NewGuid().ToString();
+                }
+                
+                
+                if (prototype.Name == string.Empty || prototype.Name == null)
+                {
+                    return BadRequest();
+                }
+                car.Name = prototype.Name;
+                if (prototype.Description == string.Empty)
+                {
+                    car.Description = null;
+                }
+                else
+                {
+                    car.Description = prototype.Description;
+                }
+                
 
-            await cars.Update_async(user, user.Id);
-            return Ok(user);
+                await cars.Add(car);
+                return Ok("Add");
+            }
+            else
+            {
+                var car = await cars.Get(prototype.Id);
+
+                if (prototype.Name==null)
+                {
+                    return BadRequest();
+                }
+                if (prototype.Name!=string.Empty)
+                {
+                    car.Name = prototype.Name;
+                }
+
+                if (prototype.Description != string.Empty)
+                {
+                    car.Description = prototype.Description;
+                }
+                
+
+                await cars.Update(car, car.Id);
+
+                return Ok("PUT");
+            }
+           
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<Car>> Delete(string id)
         {
-            await cars.Delete_async(id);
-            return Ok();
+            await cars.Delete(id);
+            return Ok("Delete");
         }
     }
 }

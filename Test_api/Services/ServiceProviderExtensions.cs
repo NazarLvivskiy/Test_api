@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +15,14 @@ namespace Test_api.Services
         public static void AddRepositoryService(this IServiceCollection services)
         {
             services.AddTransient<IRepository<Car>, MongoRepository<Car>>();
+        }
+
+        public static void AddMSSQLContext(this IServiceCollection services, IConfiguration Configuration)
+        {
+            string connection = Configuration.GetConnectionString("MSSQL");
+
+            services.AddDbContext<ApplicationContext>(options =>
+                options.UseSqlServer(connection));
         }
     }
 }

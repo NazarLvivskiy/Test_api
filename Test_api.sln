@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_api", "Test_api\Test_api.csproj", "{B4041D54-D617-4565-99A0-3164309E1930}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test_api", "Test_api\Test_api.csproj", "{B4041D54-D617-4565-99A0-3164309E1930}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_api.IntegrationTests", "XUnitTestProject1\Test_api.IntegrationTests.csproj", "{38CCE7C9-E9D6-45FA-BE77-81D393E88A75}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{B4041D54-D617-4565-99A0-3164309E1930}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4041D54-D617-4565-99A0-3164309E1930}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4041D54-D617-4565-99A0-3164309E1930}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38CCE7C9-E9D6-45FA-BE77-81D393E88A75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38CCE7C9-E9D6-45FA-BE77-81D393E88A75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38CCE7C9-E9D6-45FA-BE77-81D393E88A75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38CCE7C9-E9D6-45FA-BE77-81D393E88A75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Test_api.Tools;
 
 namespace Test_api.Models.Repository
 {
@@ -27,58 +26,35 @@ namespace Test_api.Models.Repository
             Collection = database.GetCollection<Entity>("Cars");
         }
 
-        public void Add(Entity entity)
-        {
-            Collection.InsertOne(entity);
-        }
-
-        public async Task Add_async(Entity entity)
+        public async Task Add(Entity entity)
         {
             await Collection.InsertOneAsync(entity);
         }
 
-        public async Task Delete_async(string id)
+        public async Task Delete(string id)
         {
             await Collection.DeleteOneAsync(new BsonDocument("_id", new ObjectId(id)));
         }
 
-        public async Task<IEnumerable<Entity>> GetAll_async()
+        public async Task<IEnumerable<Entity>> GetAll()
         {
             return await Collection.Find(new FilterDefinitionBuilder<Entity>().Empty).ToListAsync();
         }
 
-        public async Task<Entity> Get_async(string id)
+        public async Task<Entity> Get(string id)
         {
             return await Collection.Find(new BsonDocument("_id", new ObjectId(id))).FirstOrDefaultAsync();
         }
 
-        public Entity Get(string id)
+
+        public async Task Update(Entity newEntity, string id)
         {
-            return  Collection.Find(new BsonDocument("_id", new ObjectId(id))).FirstOrDefault();
+            await Collection.ReplaceOneAsync(new BsonDocument("_id", new ObjectId(id)), newEntity);
         }
 
-        public async Task Update_async(Entity newEntity, string id)
+        public async Task AddRange(IEnumerable<Entity> entities)
         {
-            var oldEntity = Get_async(id);
-            var model = PUT<Entity>.Up(newEntity, oldEntity.Result);
-            Console.Out.WriteLine("aefce");
-            await Collection.ReplaceOneAsync(new BsonDocument("_id", new ObjectId(id)), model);
-        }
-
-        public IEnumerable<Entity> GetAll()
-        {
-            return Collection.Find(new FilterDefinitionBuilder<Entity>().Empty).ToList();
-        }
-
-        public void Delete(string id)
-        {
-            Collection.DeleteOne(new BsonDocument("_id", new ObjectId(id)));
-        }
-
-        public void Update(Entity newEntity, string id)
-        {
-            
-            Collection.ReplaceOne(new BsonDocument("_id", new ObjectId(id)), newEntity);
+            await Collection.InsertManyAsync(entities);
         }
     }
 }
